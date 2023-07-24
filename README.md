@@ -2,7 +2,35 @@
 # nanoGPT
 
 ![nanoGPT](assets/nanogpt.jpg)
+## MODIFICATIONS:
+We made some modifications so that it generates Taylor Swift lyrics. We got the data from huggingface at huggingartists/taylor-swift, and trained our model. A sample output of our model is as follows:
+```
+Red lips and rosy cheeks
+Say youll see me again even if its just know
+Give me a hearts and sparkling
+Take me love so jump then fall down
+And I love you, take me down
+Dont you think its down, if its flawless, then theres this way too far begin
+So take that its gonna be forever
 
+```
+We also added a feature so that the user can enter a phrase they will like the song to start with. 
+
+In order to load and prepare the data, you run the following command:
+```
+python data/taylorswift_words/prepare.py
+
+```
+In order to now train our model, run the following command:
+```
+python train.py config/train_taylor_swift.py --device=cpu --compile=False --eval_iters=20 --log_interval=1 --block_size=64 --batch_size=12 --n_layer=4 --n_head=4 --n_embd=128 --max_iters=2000 --lr_decay_iters=2000 --dropout=0.0
+```
+Now, to generate samples run this command. Note that you will be asked to provide some starting text for the generation:
+```
+python sample.py --out_dir=out-taylor-swift  --device=cpu
+```
+
+Keeping the rest of the README as is:
 The most simplest, fastest repository for training/finetuning medium-sized GPTs. It is a rewrite of [minGPT](https://github.com/karpathy/minGPT) that prioritizes teeth over education. Still under active development, but currently the file `train.py` reproduces GPT-2 (124M) on OpenWebText, running on a single 8XA100 40GB node in about 4 days of training. The code itself is plain and readable: `train.py` is a ~300-line boilerplate training loop and `model.py` a ~300-line GPT model definition, which can optionally load the GPT-2 weights from OpenAI. That's it.
 
 ![repro124m](assets/gpt2_124M_loss.png)
